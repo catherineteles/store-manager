@@ -13,16 +13,16 @@ const productService = {
 
   //   return value;
   // },
-  getAll: async (_req, res) => {
-    const product = await products.getAll();
+  list: async () => {
+    const productList = await products.getAll();
 
-    res.status(200).json(product);
+    return productList;
   },
 
-  getById: async (_req, res) => {
-    const product = await products.getById();
+  getById: async (id) => {
+    const product = await products.getById(id);
 
-    res.status(200).json(product);
+    return product;
   },
 
   // create: async ({ name }) => {
