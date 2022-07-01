@@ -6,6 +6,7 @@ const mocks = {
   ],
   mockObj: { id: 2, name: 'Traje de encolhimento' },
   createMock: { id: 4, name: 'Capacete Homem de Ferro' },
+  erroMessage: { message: 'Product not found' },
 };
 
 module.exports = mocks; 
