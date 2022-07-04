@@ -51,7 +51,6 @@ describe('Product', () => {
     });
 
     it('Se o objeto não tiver o atributo name deve retornar nulo', async () => {
-      sinon.stub(connection, 'execute').resolves(null);
       const result = await products.create({});
       expect(result).to.be.null;
     });

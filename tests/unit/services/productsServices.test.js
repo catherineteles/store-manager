@@ -1,10 +1,10 @@
 const productService = require('../../../services/productsService');
 const products = require('../../../models/products');
 const chaiAsPromised = require('chai-as-promised');
-// const { ValidationError } = require('joi');
+const { ValidationError } = require('joi');
 const { expect, use } = require('chai');
 const sinon = require('sinon');
-const { listMock, mockObj } = require('../../mocks/product.mock');
+const { listMock, mockObj, createMock } = require('../../mocks/product.mock');
 
 use(chaiAsPromised);
 
@@ -32,4 +32,30 @@ describe('SerieService', () => {
       expect(productService.getById(100)).to.eventually.be.null;
     });
   })
+
+  describe('Função create', () => {
+    it('deve retornar um id se o model retornar um id', () => {
+      const expectId = 1;
+      sinon.stub(products, 'create').resolves(expectId);
+      expect(productService.create(createMock)).to.eventually.be.equal(expectId);
+    });
+  })
+
+  describe('Função ValidateBody', () => {
+    it('ao mandar um objeto válido retorna o objeto', async () => {
+      const validBodyCall = await productService.validateBody(createMock);
+      expect(validBodyCall).to.be.deep.eq(createMock);
+    });
+
+    it('ao mandar um name vazio deve retornar um erro', () => {
+      const invalidName = { name: '' };
+      expect(productService.validateBody(invalidName)).to.be.rejectedWith(ValidationError);   
+    });
+
+    it('ao mandar um name menor que 5 caracteres deve retornar um erro', () => {
+      const invalidName = { name: 'Caps' };
+      expect(productService.validateBody(invalidName)).to.be.rejectedWith(ValidationError);
+    });
+  })
+  
 }) 

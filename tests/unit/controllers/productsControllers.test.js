@@ -2,8 +2,8 @@ const productController = require('../../../controllers/productControllers');
 const productService = require('../../../services/productsService');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
-// const { ValidationError } = require('joi');
-const { listMock, mockObj, erroMessage, createMock } = require('../../mocks/product.mock');
+const { ValidationError } = require('joi');
+const { listMock, mockObj, erroMessage, createMock, createdMock } = require('../../mocks/product.mock');
 
 const { expect, use } = require('chai');
 
@@ -68,23 +68,34 @@ describe('productController', () => {
 
   })
 
-  // describe('Função create', () => {
-  //   it('ao mandar um req.body válido', async () => {
-  //     // arranjo
-  //     const req = {};
-  //     const res = {};
+  describe('Função create', () => {
+    it('ao mandar um req.body válido', async () => {
+      // arranjo
+      const req = {};
+      const res = {};
 
-  //     res.status = sinon.stub().returns(res);
-  //     res.json = sinon.stub();
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
 
-  //     req.body = createMock;
+      req.body = createMock;
 
-  //     sinon.stub(productService, 'create').resolves(1);
+      sinon.stub(productService, 'create').resolves(1);
 
-  //     await productController.create(req, res);
+      await productController.create(req, res);
 
-  //     expect(res.status.calledWith(201)).to.be.equal(true);
-  //     expect(res.json.calledWith(createMock)).to.be.equal(true);
-  //   })
-  // })
+      expect(res.status.calledWith(201)).to.be.equal(true);
+      expect(res.json.calledWith(createdMock)).to.be.equal(true);
+    });
+
+    it('ao mandar um req.body inválido', () => {
+      const req = {};
+      const res = {};
+
+      req.body = { name: '' }
+
+      const calls = productController.create(req, res);
+
+      expect(calls).to.be.rejectedWith(ValidationError);
+    });
+  })
 }) 
