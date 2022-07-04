@@ -17,11 +17,16 @@ const productController = {
   },
 
   create: async (req, res) => {
-    const value = await productService.validateBody(req.body);
-    const id = await productService.create(value);
-    const newProduct = { id, ...value };
-
-    res.status(201).json(newProduct);
+    try {
+      const value = await productService.validateBody(req.body);
+      const id = await productService.create(value);
+      const newProduct = { id, ...value };
+  
+      res.status(201).json(newProduct);
+    } catch (e) {
+      const http = e.message === '"name" is required' ? 400 : 422;
+      res.status(http).json({ message: e.message });
+    }
   },
 
 };
