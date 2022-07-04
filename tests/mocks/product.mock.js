@@ -5,7 +5,7 @@ const mocks = {
     { id: 3, name: 'Escudo do Capitão América' },
   ],
   mockObj: { id: 2, name: 'Traje de encolhimento' },
-  createMock: { id: 4, name: 'Capacete Homem de Ferro' },
+  createMock: { name: 'Capacete Homem de Ferro' },
   erroMessage: { message: 'Product not found' },
 };
 

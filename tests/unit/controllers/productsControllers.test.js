@@ -3,7 +3,7 @@ const productService = require('../../../services/productsService');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 // const { ValidationError } = require('joi');
-const { listMock, mockObj, erroMessage } = require('../../mocks/product.mock');
+const { listMock, mockObj, erroMessage, createMock } = require('../../mocks/product.mock');
 
 const { expect, use } = require('chai');
 
@@ -67,4 +67,24 @@ describe('productController', () => {
     });
 
   })
+
+  // describe('Função create', () => {
+  //   it('ao mandar um req.body válido', async () => {
+  //     // arranjo
+  //     const req = {};
+  //     const res = {};
+
+  //     res.status = sinon.stub().returns(res);
+  //     res.json = sinon.stub();
+
+  //     req.body = createMock;
+
+  //     sinon.stub(productService, 'create').resolves(1);
+
+  //     await productController.create(req, res);
+
+  //     expect(res.status.calledWith(201)).to.be.equal(true);
+  //     expect(res.json.calledWith(createMock)).to.be.equal(true);
+  //   })
+  // })
 }) 

@@ -3,7 +3,7 @@ const connection = require('../../../models/connection');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const { listMock, mockObj } = require('../../mocks/product.mock');
+const { listMock, mockObj, createMock } = require('../../mocks/product.mock');
 
 use(chaiAsPromised);
 
@@ -40,5 +40,21 @@ describe('Product', () => {
       const product = await products.getById(100);
       expect(product).to.be.null;
     });
+  })
+
+  describe('Testando a função create', () => {
+    it('ao enviar um objeto com o atributo name deve ser possível adicionar o produto e retornar ID', async () => {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
+      const expectId = 1;
+      const id = await products.create({ name: 'Capacete Homem de Ferro' });
+      expect(id).to.be.eq(expectId);
+    });
+
+    it('Se o objeto não tiver o atributo name deve retornar nulo', async () => {
+      sinon.stub(connection, 'execute').resolves(null);
+      const result = await products.create({});
+      expect(result).to.be.null;
+    });
+
   })
 }); 
