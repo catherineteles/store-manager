@@ -91,8 +91,8 @@ describe('productController', () => {
       const req = {};
       const res = {};
 
-      req.body = { name: '' }
-
+      req.body = { name: '' };
+      
       const calls = productController.create(req, res);
 
       expect(calls).to.be.rejectedWith(ValidationError);
