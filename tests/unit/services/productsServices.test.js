@@ -9,7 +9,7 @@ const { listMock, mockObj, createMock } = require('../../mocks/product.mock');
 use(chaiAsPromised);
 
 
-describe('SerieService', () => {
+describe('ProductService', () => {
   beforeEach(() => {
     sinon.restore();
   });

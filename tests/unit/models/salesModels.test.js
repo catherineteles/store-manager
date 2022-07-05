@@ -7,15 +7,16 @@ const { addProductMock } = require('../../mocks/sales.mock');
 
 use(chaiAsPromised);
 
-describe('Product', () => {
+describe('Sales', () => {
   beforeEach(() => sinon.restore());
 
   describe('Testando a função addProduct', () => {
     it('ao criar uma nova venda ela retorna o id da venda', async () => {
       sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
       const expectId = 1;
-      const id = await sales.addProducts(addProductMock);
-      expect(id).to.be.eq(expectId);
+      const id = 1;
+      const response = await sales.addProducts(id, addProductMock);
+      expect(response).to.be.eq(expectId);
     });
   });
 

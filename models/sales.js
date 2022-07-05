@@ -7,8 +7,8 @@ const sales = {
     return insertId;
   },
 
-  addProducts: async ({ id, salesProducts }) => {
-    const { productId, quantity } = salesProducts;
+  addProducts: async (id, products) => {
+    const { productId, quantity } = products;
     const query = `
     INSERT INTO StoreManager.sales_products
     (sale_id, product_id, quantity)
