@@ -57,5 +57,17 @@ describe('ProductService', () => {
       expect(productService.validateBody(invalidName)).to.be.rejectedWith(ValidationError);
     });
   })
+
+  describe('Função exists', () => {
+    it('deve retornar ture se o model retornar true', () => {
+      sinon.stub(products, 'exists').resolves(true);
+      expect(productService.exists(2)).to.eventually.be.equal(true);
+    });
+
+    it('deve lançar um erro se o model retornar false', () => {
+      sinon.stub(products, 'exists').resolves(false);
+      expect(productService.exists(100)).to.be.rejectedWith('Product not found');
+    });
+  })
   
 }) 

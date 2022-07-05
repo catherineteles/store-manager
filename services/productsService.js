@@ -30,6 +30,14 @@ const productService = {
     const id = await products.create({ name });
     return id;
   },
+
+  exists: async (id) => {
+    const exists = await products.exists(id);
+    if (!exists) {
+      throw new Error('Product not found');
+    }
+    return true;
+  },
 };
 
 module.exports = productService;
