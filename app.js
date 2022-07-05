@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 
 const productController = require('./controllers/productControllers');
 
-const { requiredName, sizeName } = require('./errorMessages');
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -24,8 +22,9 @@ app.post('/products', productController.create);
 app.use((err, _req, res, _next) => {
   const { message } = err;
   switch (message) {
-    case requiredName: res.status(400).json({ message }); break;
-    case sizeName: res.status(422).json({ message }); break;
+    case message.includes('required'): res.status(400).json({ message }); break;
+    case message.includes('must'): res.status(422).json({ message }); break;
+    case message.includes('found'): res.status(404).json({ message }); break;
     default: console.warn(err); res.sendStatus(500);
   }
 });

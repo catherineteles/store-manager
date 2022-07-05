@@ -1,19 +1,18 @@
 const salesService = require('../services/salesService');
+const productService = require('../services/productsService');
 
 const salesController = {
   create: async (req, res) => {
     const products = req.body;
 
     await Promise.all(products.map(async (product) => {
-      try {
-        await salesService.validateBody(product);
-      } catch (e) {
-        const http = e.message === '"productId" is required' ? 400 : 422;
-        return res.status(http).json({ message: e.message });
-      }
-     }));
+      await salesService.validateBody(product);
+      await productService.exists(product.productId);
+    }));
 
-    res.status(201).json(products);   
+    const newSale = await salesService.addNewSale(products);
+
+    res.status(201).json(newSale);   
   },
 
 };
