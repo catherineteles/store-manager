@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const productController = require('./controllers/productControllers');
 
+const { requiredName, sizeName } = require('./errorMessages');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -18,6 +20,15 @@ app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getById);
 
 app.post('/products', productController.create);
+
+app.use((err, _req, res, _next) => {
+  const { message } = err;
+  switch (message) {
+    case requiredName: res.status(400).json({ message }); break;
+    case sizeName: res.status(422).json({ message }); break;
+    default: console.warn(err); res.sendStatus(500);
+  }
+});
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima
