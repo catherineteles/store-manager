@@ -56,4 +56,21 @@ describe('Product', () => {
     });
 
   })
+
+  describe('Testando a função exists', () => {
+    it('deve retornar true o se o connection.execute retornar um array com um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves([[mockObj]]);
+      const response = products.exists(2); 
+      expect(response).to
+        .eventually.be.equal(true);
+    });
+
+    it('deve retornar falso se o connection.execute retornar um array vazio', async () => {
+      sinon.stub(connection, 'execute').resolves([[]]);
+
+      const response = await products.exists(100);
+      expect(response).to.be.equal(false);
+    });
+  })
+  
 }); 

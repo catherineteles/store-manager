@@ -4,7 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 const { ValidationError } = require('joi');
 const { expect, use } = require('chai');
 const sinon = require('sinon');
-const { mockBody, saleMock, addProductMock } = require('../../mocks/sales.mock');
+const { mockBody, addProductMock } = require('../../mocks/sales.mock');
 
 use(chaiAsPromised);
 

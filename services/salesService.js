@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const sales = require('../models/sales');
 
-const productService = {
+const salesService = {
   
   validateBody: async (params) => {
     const schema = Joi.object({
@@ -26,4 +26,4 @@ const productService = {
 
 };
 
-module.exports = productService;
+module.exports = salesService;
