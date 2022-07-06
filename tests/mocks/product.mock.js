@@ -6,6 +6,7 @@ const mocks = {
   ],
   mockObj: { id: 2, name: 'Traje de encolhimento' },
   createMock: { name: 'Capacete Homem de Ferro' },
+  editMock: { name: 'Martelo de Thor Mjolnir' },
   createdMock: { id: 1, name: 'Capacete Homem de Ferro' },
   erroMessage: { message: 'Product not found' },
 };

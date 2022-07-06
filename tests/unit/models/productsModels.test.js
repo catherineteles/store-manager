@@ -3,7 +3,7 @@ const connection = require('../../../models/connection');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const { listMock, mockObj, createMock } = require('../../mocks/product.mock');
+const { listMock, mockObj, createMock, editMock } = require('../../mocks/product.mock');
 
 use(chaiAsPromised);
 
@@ -61,7 +61,7 @@ describe('Product', () => {
     it('deve retornar true o se o connection.execute retornar um array com um objeto', async () => {
       sinon.stub(connection, 'execute').resolves([[mockObj]]);
       const response = products.exists(2); 
-      expect(response).to
+      return expect(response).to
         .eventually.be.equal(true);
     });
 
@@ -70,6 +70,14 @@ describe('Product', () => {
 
       const response = await products.exists(100);
       expect(response).to.be.equal(false);
+    });
+  })
+
+  describe('Testando a função edit', () => {
+    it('deve ser capaz de editar se mandar um id e um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+      const response = await products.edit(1, editMock);
+      expect(response).to.be.equal(true);
     });
   })
   

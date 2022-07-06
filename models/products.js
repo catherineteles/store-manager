@@ -24,6 +24,16 @@ const create = async ({ name }) => {
   return insertId;
 };
 
+const edit = async (id, changes) => {
+  const query = `
+      UPDATE db.character 
+      SET ? 
+      WHERE id = ?
+    `;
+  const [{ affectedRows }] = await connection.execute(query, [changes, id]);
+  return Boolean(affectedRows);
+};
+
 const exists = async (id) => {
   const query = `
       SELECT * 
@@ -38,5 +48,6 @@ module.exports = {
   getAll,
   getById,
   create,
+  edit,
   exists,
 };
