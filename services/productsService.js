@@ -17,7 +17,11 @@ const productService = {
 
   validateBody: runSchema(Joi.object({
       name: Joi.string().min(5).required(),
-    })),
+  })),
+  
+  validateId: runSchema(Joi.object({
+    id: Joi.number().min(1).required(),
+  })),
 
   create: async ({ name }) => {
     const id = await products.create({ name });
@@ -29,6 +33,14 @@ const productService = {
     if (!exists) {
       throw new Error('Product not found');
     }
+    return true;
+  },
+
+  edit: async (id, changes) => {
+    if (!changes.name) return false;
+
+    await products.edit(id, changes);
+
     return true;
   },
 };

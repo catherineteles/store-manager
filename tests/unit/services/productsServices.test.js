@@ -4,7 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 const { ValidationError } = require('joi');
 const { expect, use } = require('chai');
 const sinon = require('sinon');
-const { listMock, mockObj, createMock } = require('../../mocks/product.mock');
+const { listMock, mockObj, createMock, editMock } = require('../../mocks/product.mock');
 
 use(chaiAsPromised);
 
@@ -58,8 +58,25 @@ describe('ProductService', () => {
     });
   })
 
+  describe('Função ValidateId', () => {
+    it('ao mandar um objeto válido retorna o objeto', async () => {
+      const validBodyCall = await productService.validateId({ id: 1 });
+      expect(validBodyCall).to.be.deep.eq({ id: 1 });
+    });
+
+    it('ao mandar um name vazio deve retornar um erro', () => {
+      const invalidId = { id: '' };
+      expect(productService.validateId(invalidId)).to.be.rejectedWith(ValidationError);
+    });
+
+    it('ao mandar um id menor que 1 deve retornar um erro', () => {
+      const invalidId = { id: 0 };
+      return expect(productService.validateId(invalidId)).to.be.rejectedWith(ValidationError);
+    });
+  })
+
   describe('Função exists', () => {
-    it('deve retornar ture se o model retornar true', () => {
+    it('deve retornar true se o model retornar true', () => {
       sinon.stub(products, 'exists').resolves(true);
       expect(productService.exists(2)).to.eventually.be.equal(true);
     });
@@ -67,6 +84,18 @@ describe('ProductService', () => {
     it('deve lançar um erro se o model retornar false', () => {
       sinon.stub(products, 'exists').resolves(false);
       expect(productService.exists(100)).to.be.rejectedWith('Product not found');
+    });
+  })
+
+  describe('Função edit', () => {
+    it('deve retornar true quando submetido um objeto com name', () => {
+      sinon.stub(products, 'edit').resolves(true);
+      return expect(productService.edit(1, editMock)).to.eventually.be.equal(true);
+    });
+
+    it('não deve ser possível editar um objeto sem o campo name', () => {
+      sinon.stub(products, 'exists').resolves(true);
+      return expect(productService.edit(1, { })).to.eventually.be.equal(false);
     });
   })
   
