@@ -4,7 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 const { ValidationError } = require('joi');
 const { expect, use } = require('chai');
 const sinon = require('sinon');
-const { mockBody, addProductMock } = require('../../mocks/sales.mock');
+const { mockBody, addProductMock, idList, responseList } = require('../../mocks/sales.mock');
 
 use(chaiAsPromised);
 
@@ -15,7 +15,7 @@ describe('SaleService', () => {
   });
 
   describe('Função addNewSale', () => {
-    it('deve retornar um objeto com o id retornado pelo model', async () => { 
+    it('deve retornar um objeto com o id retornado pelo model', async () => {
       const expectId = 1;
       sinon.stub(sales, 'create').resolves(expectId);
       sinon.stub(sales, 'addProducts').resolves();
@@ -45,6 +45,24 @@ describe('SaleService', () => {
       const withoutQ = { productId: 1, quantity: 0 };
       expect(salesService.validateBody(withoutQ)).to.be.rejectedWith(ValidationError);
     });
-  })
+  });
 
-}) 
+  describe('Função list', () => {
+    it('deve retornar um array se o model retornar um array', () => {
+      sinon.stub(sales, 'list').resolves(responseList);
+      expect(salesService.list()).to.eventually.deep.equal(responseList);
+    });
+  });
+
+  describe('Função getById', () => {
+    it('deve retornar um objeto se o model retornar esse objeto', () => {
+      sinon.stub(sales, 'getById').resolves(idList);
+      return expect(salesService.getById(1)).to.eventually.deep.equal(idList);
+    });
+
+    it('deve retornar null se o model retornar null', () => {
+      sinon.stub(sales, 'getById').resolves(null);
+      return expect(salesService.getById(100)).to.eventually.be.null;
+    });
+  });
+});

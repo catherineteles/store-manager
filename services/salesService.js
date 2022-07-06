@@ -17,6 +17,18 @@ const salesService = {
     return ({ id, itemsSold: salesProducts });
   },
 
+  list: async () => {
+    const salesList = await sales.list();
+
+    return salesList;
+  },
+
+  getById: async (id) => {
+    const salesList = await sales.getById(id);
+
+    return salesList;
+  },
+
 };
 
 module.exports = salesService;
