@@ -15,6 +15,20 @@ const salesController = {
     res.status(201).json(newSale);   
   },
 
+  getList: async (_req, res) => {
+    const product = await salesService.list();
+
+    res.status(200).json(product);
+  },
+
+  getById: async (req, res) => {
+    const { id } = req.params;
+    const sale = await salesService.getById(id);
+
+    if (!sale) return res.status(404).json({ message: 'Sale not found' });
+
+    res.status(200).json(sale);
+  },
 };
 
 module.exports = salesController;
