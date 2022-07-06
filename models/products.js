@@ -26,8 +26,8 @@ const create = async ({ name }) => {
 
 const edit = async (id, changes) => {
   const query = `
-      UPDATE db.character 
-      SET ? 
+      UPDATE StoreManager.products 
+      SET name = ? 
       WHERE id = ?
     `;
   const [{ affectedRows }] = await connection.execute(query, [changes, id]);

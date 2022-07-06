@@ -36,10 +36,10 @@ const productService = {
     return true;
   },
 
-  edit: async (id, changes) => {
-    if (!changes.name) return false;
+  edit: async (id, { name }) => {
+    if (!name) return false;
 
-    await products.edit(id, changes);
+    await products.edit(id, name);
 
     return true;
   },
