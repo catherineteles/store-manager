@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { runSchema } = require('../helpers/erroHandling');
 const products = require('../models/products');
 
 const productService = {
@@ -14,17 +15,9 @@ const productService = {
     return product;
   },
 
-  validateBody: async (params) => {
-    const schema = Joi.object({
+  validateBody: runSchema(Joi.object({
       name: Joi.string().min(5).required(),
-    });
-
-    const { error, value } = schema.validate(params);
-
-    if (error) throw error;
-
-    return value;
-  },
+    })),
 
   create: async ({ name }) => {
     const id = await products.create({ name });

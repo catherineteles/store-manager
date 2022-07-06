@@ -35,15 +35,14 @@ describe('salesController', () => {
       expect(res.json.calledWith(saleMock)).to.be.equal(true);
     });
 
-    // it('ao mandar um req.body inválido', () => {
-    //   const req = {};
-    //   const res = {};
+    it('ao mandar um req.body sem productId deve retornar um erro', async () => {
+      const req = {};
+      const res = {};
 
-    //   req.body = { name: '' };
+      req.body = [{ quantity: 1 }];
 
-    //   const calls = productController.create(req, res);
-
-    //   expect(calls).to.be.rejectedWith(ValidationError);
-    // });
+      return expect(salesController.create(req, res))
+        .to.eventually.be.rejectedWith(ValidationError);
+    });
   })
 }) 

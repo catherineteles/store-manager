@@ -1,8 +1,10 @@
 const express = require('express');
+require('express-async-errors');
 
 const bodyParser = require('body-parser');
 
 const productController = require('./controllers/productControllers');
+const salesController = require('./controllers/salesControllers');
 
 const app = express();
 
@@ -19,12 +21,13 @@ app.get('/products/:id', productController.getById);
 
 app.post('/products', productController.create);
 
+app.post('/sales', salesController.create);
+
 app.use((err, _req, res, _next) => {
-  const { message } = err;
-  switch (message) {
-    case message.includes('required'): res.status(400).json({ message }); break;
-    case message.includes('must'): res.status(422).json({ message }); break;
-    case message.includes('found'): res.status(404).json({ message }); break;
+  const { message, name, code } = err;
+  switch (name) {
+    case 'ValidationError': res.status(code).json({ message }); break;
+    case 'Error': res.status(404).json({ message }); break;
     default: console.warn(err); res.sendStatus(500);
   }
 });

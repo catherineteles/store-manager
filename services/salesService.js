@@ -1,27 +1,20 @@
 const Joi = require('joi');
+const { runSchema } = require('../helpers/erroHandling');
 const sales = require('../models/sales');
 
 const salesService = {
   
-  validateBody: async (params) => {
-    const schema = Joi.object({
-      productId: Joi.required(),
-      quantity: Joi.number().integer().min(1).required(),
-    });
-
-    const { error, value } = schema.validate(params);
-
-    if (error) throw error;
-
-    return value;
-  },
+  validateBody: runSchema(Joi.object({
+    productId: Joi.required(),
+    quantity: Joi.number().integer().min(1).required(),
+  })),
 
   addNewSale: async (salesProducts) => {
     const id = await sales.create();
 
     await Promise.all(salesProducts.map((sale) => sales.addProducts(id, sale)));
 
-    return ({ id, itensSold: salesProducts });
+    return ({ id, itemsSold: salesProducts });
   },
 
 };
