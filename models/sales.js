@@ -48,9 +48,8 @@ const sales = {
     `;
     const [salesList] = await connection.execute(query, [id]);
     if (salesList.length === 0) return null;
-    const [data] = salesList;
 
-    return data;
+    return salesList;
   },
 
 };

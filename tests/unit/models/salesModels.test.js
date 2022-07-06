@@ -43,7 +43,7 @@ describe('Sales', () => {
 
   describe('Testando a função getById', () => {
     it('deve retornar um objeto se o connection.execute retornar um array com um objeto', async () => {
-      sinon.stub(connection, 'execute').resolves([[idList]]);
+      sinon.stub(connection, 'execute').resolves([idList]);
       return expect(sales.getById(1)).to
         .eventually.be.deep.eq(idList);
     });
