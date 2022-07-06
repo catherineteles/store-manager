@@ -16,7 +16,7 @@ describe('Product', () => {
       // arranjo
       sinon.stub(connection, 'execute').resolves([listMock]);
       // ação/assertiva
-      expect(products.getAll()).to.eventually.deep.equal(listMock);
+      return expect(products.getAll()).to.eventually.deep.equal(listMock);
     });
 
     it('deve falhar se o connection.execute disparar um erro', () => {

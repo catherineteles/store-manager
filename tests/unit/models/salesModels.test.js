@@ -3,7 +3,7 @@ const connection = require('../../../models/connection');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const { addProductMock } = require('../../mocks/sales.mock');
+const { addProductMock, responseList } = require('../../mocks/sales.mock');
 
 use(chaiAsPromised);
 
@@ -27,5 +27,18 @@ describe('Sales', () => {
       const id = await sales.create();
       expect(id).to.be.eq(expectId);
     });
-  })
+  });
+
+  describe('Testando a função list', () => {
+    it('deve retornar uma array se o connection.execute devolver um array', () => {
+      sinon.stub(connection, 'execute').resolves([responseList]);
+      return expect(sales.list()).to.eventually.deep.equal(responseList);
+    });
+
+    it('deve falhar se o connection.execute disparar um erro', () => {
+      sinon.stub(connection, 'execute').rejects();
+      expect(sales.list()).to.eventually.rejected;
+    });
+  });
+
 }); 

@@ -18,6 +18,22 @@ const sales = {
     return insertId;
   },
 
+  list: async () => {
+    const query = `
+      SELECT
+      sale_id AS saleId,
+      date,
+      product_id AS productId,
+      quantity
+      FROM StoreManager.sales AS s 
+      INNER JOIN StoreManager.sales_products AS sp
+      ON s.id = sp.sale_id
+      ORDER BY saleId, productId;    
+    `;
+    const [salesList] = await connection.execute(query);
+    return salesList;
+  },
+
 };
 
 module.exports = sales;
