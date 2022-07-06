@@ -3,7 +3,7 @@ const connection = require('../../../models/connection');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const { addProductMock, responseList } = require('../../mocks/sales.mock');
+const { addProductMock, responseList, idList } = require('../../mocks/sales.mock');
 
 use(chaiAsPromised);
 
@@ -40,5 +40,20 @@ describe('Sales', () => {
       expect(sales.list()).to.eventually.rejected;
     });
   });
+
+  describe('Testando a função getById', () => {
+    it('deve retornar um objeto se o connection.execute retornar um array com um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves([[idList]]);
+      return expect(sales.getById(1)).to
+        .eventually.be.deep.eq(idList);
+    });
+
+    it('deve retornar nulo se o connection.execute retornar um array vazio', async () => {
+      sinon.stub(connection, 'execute').resolves([[]]);
+
+      const sale = await sales.getById(100);
+      expect(sale).to.be.null;
+    });
+  })
 
 }); 
