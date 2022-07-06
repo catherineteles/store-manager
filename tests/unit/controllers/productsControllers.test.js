@@ -3,7 +3,7 @@ const productService = require('../../../services/productsService');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { ValidationError } = require('joi');
-const { listMock, mockObj, erroMessage, createMock, createdMock } = require('../../mocks/product.mock');
+const { listMock, mockObj, erroMessage, createMock, createdMock, editMock, editMockResult } = require('../../mocks/product.mock');
 
 const { expect, use } = require('chai');
 
@@ -70,7 +70,6 @@ describe('productController', () => {
 
   describe('Função create', () => {
     it('ao mandar um req.body válido', async () => {
-      // arranjo
       const req = {};
       const res = {};
 
@@ -98,4 +97,53 @@ describe('productController', () => {
       expect(calls).to.be.rejectedWith(ValidationError);
     });
   })
+
+  describe('Função update', () => {
+    it('ao tentar editar um id inválido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 'teste' };
+
+      return expect(productController.updateProduct(req, res))
+        .to.be.rejectedWith(ValidationError);
+    });
+
+    it('ao tentar editar com um body inválido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 1 };
+      req.body = {};
+
+      return expect(productController.updateProduct(req, res))
+        .to.be.rejectedWith(ValidationError);
+    });
+
+    it('ao tentar editar com um id e um body válido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 1 };
+      req.body = editMock;
+
+      sinon.stub(productService, 'edit').resolves(true);
+      sinon.stub(productService, 'getById').resolves(editMockResult);
+
+      await productController.updateProduct(req, res);
+
+      expect(res.status.calledWith(200)).to.be.equal(true);
+      expect(res.json.calledWith(editMockResult)).to.be.equal(true);
+    });
+  });
+
 }) 

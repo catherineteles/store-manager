@@ -23,6 +23,18 @@ const productController = {
   
     res.status(201).json(newProduct);
   },
+
+  updateProduct: async (req, res) => {
+    const { id } = await productService.validateId(req.params);
+    const data = await productService.validateBody(req.body);
+
+    await productService.exists(id);
+
+    await productService.edit(id, data);
+    const product = await productService.getById(id);
+    res.status(200).json(product);
+  },
+
 };
 
 module.exports = productController;

@@ -4,7 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 const { ValidationError } = require('joi');
 const { expect, use } = require('chai');
 const sinon = require('sinon');
-const { listMock, mockObj, createMock, editMock } = require('../../mocks/product.mock');
+const { listMock, mockObj, createMock, editMock, editMockResult } = require('../../mocks/product.mock');
 
 use(chaiAsPromised);
 
@@ -98,5 +98,6 @@ describe('ProductService', () => {
       return expect(productService.edit(1, { })).to.eventually.be.equal(false);
     });
   })
+
   
 }) 
