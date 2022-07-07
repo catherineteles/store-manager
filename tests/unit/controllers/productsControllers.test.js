@@ -149,4 +149,37 @@ describe('productController', () => {
     });
   });
 
+  describe('Função update', () => {
+    it('ao tentar editar um id inválido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 'teste' };
+
+      return expect(productController.deleteProduct(req, res))
+        .to.be.rejectedWith(ValidationError);
+    });
+
+    it('ao tentar editar com um id válido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 1 };
+
+      sinon.stub(productService, 'validateId').resolves({ id: 1 });
+      sinon.stub(productService, 'exists').resolves(true);
+      sinon.stub(productService, 'delete').resolves(true);
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+
 }) 
