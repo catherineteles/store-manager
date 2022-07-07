@@ -99,5 +99,16 @@ describe('ProductService', () => {
     });
   })
 
+  describe('Função delete', () => {
+    it('deve retornar true quando submetido um id', () => {
+      sinon.stub(products, 'deleteById').resolves(true);
+      return expect(productService.delete(1)).to.eventually.be.equal(true);
+    });
+
+    it('não deve ser possível deletar sem id', () => {
+      return expect(productService.delete()).to.eventually.be.equal(false);
+    });
+  })
+
   
 }) 

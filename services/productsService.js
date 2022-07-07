@@ -43,6 +43,15 @@ const productService = {
 
     return true;
   },
+
+  delete: async (id) => {
+    if (!id) return false;
+    
+    await products.deleteById(id);
+
+    return true;
+  },
+
 };
 
 module.exports = productService;
