@@ -44,10 +44,20 @@ const exists = async (id) => {
   return !!product;
 };
 
+const deleteById = async (id) => {
+  const query = `
+      DELETE FROM StoreManager.products 
+      WHERE id = ?
+    `;
+  const [{ affectedRows }] = await connection.execute(query, [id]);
+  return Boolean(affectedRows);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   edit,
   exists,
+  deleteById,
 };

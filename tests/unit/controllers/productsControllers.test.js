@@ -136,6 +136,9 @@ describe('productController', () => {
       req.params = { id: 1 };
       req.body = editMock;
 
+      sinon.stub(productService, 'validateId').resolves({ id: 1 });
+      sinon.stub(productService, 'validateBody').resolves(editMock);
+      sinon.stub(productService, 'exists').resolves(true);
       sinon.stub(productService, 'edit').resolves(true);
       sinon.stub(productService, 'getById').resolves(editMockResult);
 

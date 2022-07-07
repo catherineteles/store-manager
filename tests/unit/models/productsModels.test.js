@@ -80,5 +80,13 @@ describe('Product', () => {
       expect(response).to.be.equal(true);
     });
   })
+
+  describe('Testando a função deleteById', () => {
+    it('deve ser capaz deletar se mandar um id e um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+      const response = await products.deleteById(1);
+      expect(response).to.be.equal(true);
+    });
+  })
   
 }); 
