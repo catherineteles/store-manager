@@ -96,4 +96,54 @@ describe('salesController', () => {
       expect(res.json.calledWith({ message: 'Sale not found' })).to.be.true;
     });
   });
+
+  describe('Função deleteSale', () => {
+    it('ao tentar deletar um id inválido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 'teste' };
+
+      return expect(salesController.deleteSale(req, res))
+        .to.be.rejectedWith(ValidationError);
+    });
+
+    it('ao tentar deletar uma venda que não existe', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 100 };
+
+      sinon.stub(productService, 'validateId').resolves({ id: 100 });
+      sinon.stub(salesService, 'getById').resolves(null);
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('ao tentar deletar com um id válido', async function () {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.params = { id: 1 };
+
+      sinon.stub(productService, 'validateId').resolves({ id: 1 });
+      sinon.stub(salesService, 'getById').resolves(idList);
+      sinon.stub(salesService, 'delete').resolves(true);
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+  });
 }) 

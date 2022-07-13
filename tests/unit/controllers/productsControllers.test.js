@@ -149,8 +149,8 @@ describe('productController', () => {
     });
   });
 
-  describe('Função update', () => {
-    it('ao tentar editar um id inválido', async function () {
+  describe('Função deleteProduct', () => {
+    it('ao tentar deletar um id inválido', async function () {
       const req = {};
       const res = {};
 
@@ -163,7 +163,7 @@ describe('productController', () => {
         .to.be.rejectedWith(ValidationError);
     });
 
-    it('ao tentar editar com um id válido', async function () {
+    it('ao tentar deletar com um id válido', async function () {
       const req = {};
       const res = {};
 
