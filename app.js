@@ -31,6 +31,8 @@ app.get('/sales', salesController.getList);
 
 app.get('/sales/:id', salesController.getById);
 
+app.delete('/sales/:id', salesController.deleteSale);
+
 app.use((err, _req, res, _next) => {
   const { message, name, code } = err;
   switch (name) {
