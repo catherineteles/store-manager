@@ -56,4 +56,12 @@ describe('Sales', () => {
     });
   })
 
+  describe('Testando a função deleteById', () => {
+    it('deve ser capaz deletar se mandar um id', async () => {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 3 }]);
+      const response = await sales.deleteById(1);
+      expect(response).to.be.equal(true);
+    });
+  })
+
 }); 

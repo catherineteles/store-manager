@@ -52,6 +52,18 @@ const sales = {
     return salesList;
   },
 
+  deleteById: async (id) => {
+    const query = `
+      DELETE StoreManager.sales, StoreManager.sales_products
+      FROM StoreManager.sales
+      INNER JOIN StoreManager.sales_products 
+      ON StoreManager.sales.id = StoreManager.sales_products.sale_id
+      WHERE StoreManager.sales.id = ?;
+    `;
+    const [{ affectedRows }] = await connection.execute(query, [id]);
+    return Boolean(affectedRows);
+  },
+
 };
 
 module.exports = sales;
