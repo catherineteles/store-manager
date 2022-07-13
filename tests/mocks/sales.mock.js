@@ -60,6 +60,11 @@ const mocks = {
       "quantity": 2
     },
   ],
+
+  editMock: {
+    productId: 1,
+    quantity: 10,
+  },
 };
 
 module.exports = mocks; 

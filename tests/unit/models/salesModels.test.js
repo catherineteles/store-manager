@@ -3,7 +3,7 @@ const connection = require('../../../models/connection');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const { addProductMock, responseList, idList } = require('../../mocks/sales.mock');
+const { addProductMock, responseList, idList, editMock } = require('../../mocks/sales.mock');
 
 use(chaiAsPromised);
 
@@ -63,5 +63,14 @@ describe('Sales', () => {
       expect(response).to.be.equal(true);
     });
   })
+
+  describe('Testando a função edit', () => {
+    it('deve ser capaz de editar se mandar um id e um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+      const response = await sales.edit(1, editMock);
+      expect(response).to.be.equal(true);
+    });
+  })
+
 
 }); 

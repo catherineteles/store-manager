@@ -64,6 +64,18 @@ const sales = {
     return Boolean(affectedRows);
   },
 
+  edit: async (id, changes) => {
+    const { quantity, productId } = changes;
+    const query = `
+      UPDATE StoreManager.sales_products 
+      SET quantity = ? 
+      WHERE product_id = ?
+      AND sale_id = ?
+    `;
+    const [{ affectedRows }] = await connection.execute(query, [quantity, productId, id]);
+    return Boolean(affectedRows);
+  },
+
 };
 
 module.exports = sales;
