@@ -65,4 +65,16 @@ describe('SaleService', () => {
       return expect(salesService.getById(100)).to.eventually.be.null;
     });
   });
+
+  describe('Função delete', () => {
+    it('deve retornar true quando submetido um id', () => {
+      sinon.stub(sales, 'deleteById').resolves(true);
+      return expect(salesService.delete(3)).to.eventually.be.equal(true);
+    });
+
+    it('não deve ser possível deletar sem id', () => {
+      return expect(salesService.delete()).to.eventually.be.equal(false);
+    });
+  })
+
 });

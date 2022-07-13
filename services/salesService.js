@@ -29,6 +29,14 @@ const salesService = {
     return salesList;
   },
 
+  delete: async (id) => {
+    if (!id) return false;
+
+    await sales.deleteById(id);
+
+    return true;
+  },
+
 };
 
 module.exports = salesService;
