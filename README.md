@@ -49,6 +49,7 @@
   ```
 #### Rodando a aplicação com o Docker
 
-Para rodar a aplicação com o Docker basta utilizar o comando ```sh
+Para rodar a aplicação com o Docker basta utilizar o comando 
+```sh
     docker-compose up
-  ```  
+```  
